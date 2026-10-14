@@ -2,8 +2,8 @@ name: Nogizaka schedule to Discord
 
 on:
   schedule:
-    - cron: "0 22 * * *"   # UTC 22:00 = 日本時間 毎朝7:00(数分〜十数分遅れることがあります)
-  workflow_dispatch:        # 手動実行ボタン(テスト用)
+    - cron: "0 22 * * *"  # UTC 22:00 = 日本時間 毎朝7:00
+  workflow_dispatch:      # 手動実行ボタン(テスト用)
 
 jobs:
   notify:
