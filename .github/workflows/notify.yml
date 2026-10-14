@@ -1,0 +1,20 @@
+name: Nogizaka schedule to Discord
+
+on:
+  schedule:
+    - cron: "0 22 * * *"   # UTC 22:00 = 日本時間 毎朝7:00(数分〜十数分遅れることがあります)
+  workflow_dispatch:        # 手動実行ボタン(テスト用)
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests beautifulsoup4
+      - run: python notify.py
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          MEMBERS: ${{ vars.MEMBERS }}
