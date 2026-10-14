@@ -1,10 +1,10 @@
-"""乃木坂46公式サイトの今日のスケジュールを Discord に通知する。
+"""乃木坂46公式サイトの今日のスケジュールを Discord(Webhook)に通知する。
 
 環境変数:
-  DISCORD_WEBHOOK_URL  (必須) DiscordのWebhook URL
+  DISCORD_WEBHOOK_URL  (必須) 通知先チャンネルのWebhook URL
   MEMBERS              (任意) 通知したいメンバー名。カンマ区切り(例: 賀喜遥香,川﨑桜)
-                       未設定なら全員分を通知。名前はスペースなしで書く
-  SEND_EMPTY           (任意) "0" にすると、予定がない日は通知しない(デフォルトは通知する)
+                       未設定なら全員分。名前は公式サイトの表記(スペースなし)で書く
+  SEND_EMPTY           (任意) "0" で、予定がない日は通知しない
 """
 import os
 import re
@@ -81,8 +81,7 @@ def send_discord(webhook: str, content: str) -> None:
     if cur.strip():
         chunks.append(cur)
     for c in chunks:
-        r = requests.post(webhook, json={"content": c}, timeout=30)
-        r.raise_for_status()
+        requests.post(webhook, json={"content": c}, timeout=30).raise_for_status()
 
 
 def main() -> None:
