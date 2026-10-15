@@ -1,0 +1,22 @@
+   name: Update photo index
+
+   on:
+     push:
+       paths:
+         - "photos/**"
+     workflow_dispatch:
+
+   permissions:
+     contents: write
+
+   jobs:
+     index:
+       runs-on: ubuntu-latest
+       steps:
+         - uses: actions/checkout@v4
+         - run: python tools/make_index.py
+         - run: |
+             git config user.name "github-actions"
+             git config user.email "github-actions@users.noreply.github.com"
+             git add photos/index.json
+             git diff --cached --quiet || (git commit -m "update photo index" && git push)
